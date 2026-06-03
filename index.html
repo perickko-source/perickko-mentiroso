@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Mentiroso - Póker de Dados</title>
+<style>
+    :root {
+        --gold: #f1c40f;
+        --neon-green: #00ff41;
+        --felt-light: #2ecc71;
+        --felt-dark: #0a5c2a;
+        --wood: #3e2723;
+        --dice-cream: #f5f0e1;
+        --dice-cream-shadow: #e8e0c8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; user-select: none; }
+    body {
+        background: #000;
+        color: #fff;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+        overflow-x: hidden;
+    }
+
+    /* PANTALLA INICIO */
+    .start-container { display: none; width: 100%; max-width: 520px; padding: 20px; }
+    .start-container.active { display: flex; flex-direction: column; align-items: center; }
+    .start-card {
+        background: #0d0d0d; border: 4px solid var(--gold); border-radius: 28px;
+        padding: 45px 30px 35px; width: 100%; text-align: center;
+        box-shadow: 0 0 40px rgba(241, 196, 15, 0.15);
+    }
+    .start-title { font-size: 3.2rem; font-weight: 900; color: var(--gold); letter-spacing: 3px; margin-bottom: 8px; font-family: 'Arial Black', sans-serif; }
+    .start-subtitle { font-size: 1.25rem; color: #fff; font-weight: 600; margin-bottom: 35px; }
+    .player-buttons-row { display: flex; justify-content: center; gap: 15px; margin-bottom: 35px; flex-wrap: wrap; }
+    .player-circle-btn {
+        width: 65px; height: 65px; border-radius: 50%; background: #000; border: 3px solid var(--gold);
+        color: #fff; font-size: 1.6rem; font-weight: 900; cursor: pointer; transition: all 0.2s;
+        font-family: 'Arial Black', sans-serif;
+    }
+    .player-circle-btn:hover { background: var(--gold); color: #000; transform: scale(1.1); box-shadow: 0 0 20px rgba(241, 196, 15, 0.5); }
+    .instructions-btn {
+        width: 100%; max-width: 380px; padding: 14px 20px; background: #000; border: 3px solid var(--gold);
+        border-radius: 50px; color: var(--gold); font-size: 1.1rem; font-weight: 900; letter-spacing: 2px; cursor: pointer;
+        transition: all 0.2s; font-family: 'Arial Black', sans-serif;
+    }
+    .instructions-btn:hover { background: var(--gold); color: #000; }
+
+    /* PANTALLA JUEGO */
+    .game-container { display: none; width: 100%; max-width: 700px; flex-direction: column; align-items: center; }
+    .game-container.active { display: flex; }
+
+    .scoreboard { display: flex; gap: 8px; width: 100%; justify-content: center; flex-wrap: wrap; margin-bottom: 12px; }
+    .player-card {
+        background: #0a0a0a; border: 2px solid #333; border-radius: 12px;
+        padding: 10px 18px; min-width: 110px; text-align: center; transition: all 0.3s;
+    }
+    .player-card.active {
+        border-color: var(--neon-green);
+        box-shadow: 0 0 15px rgba(0, 255, 65, 0.4), inset 0 0 10px rgba(0, 255, 65, 0.1);
+    }
+    .player-card.eliminated { opacity: 0.4; text-decoration: line-through; border-color: #555; }
+    .player-card .pname { font-size: 0.7rem; font-weight: 900; letter-spacing: 1px; margin-bottom: 4px; color: var(--neon-green); font-family: 'Arial Black', sans-serif; }
+    .player-card .plives { font-size: 1.3rem; font-weight: 900; color: var(--gold); font-family: 'Arial Black', sans-serif; }
+
+    .turn-counter { background: #000; border: 3px solid var(--gold); border-radius: 50px; padding: 8px 30px; margin-bottom: 6px; }
+    .turn-counter .counter-value { font-size: 2rem; font-weight: 900; color: var(--gold); font-family: 'Arial Black', sans-serif; }
+    .turn-message { color: var(--gold); font-weight: 900; font-size: 1rem; margin-bottom: 10px; text-align: center; font-family: 'Arial Black', sans-serif; min-height: 28px; letter-spacing: 0.5px; }
+
+    /* TAPETE */
+    .felt-table {
+        background: radial-gradient(ellipse at 50% 40%, var(--felt-light) 0%, #1a8c4a 30%, var(--felt-dark) 70%, #063d1a 100%);
+        border: 14px solid var(--wood);
+        border-radius: 35px;
+        padding: 20px;
+        width: 100%;
+        min-height: 420px;
+        position: relative;
+        box-shadow: inset 0 0 80px rgba(0,0,0,0.5), 0 10px 40px rgba(0,0,0,0.7);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .felt-table::before {
+        content: ""; position: absolute; top: 8px; left: 8px; right: 8px; bottom: 8px;
+        border: 2px dashed rgba(255,255,255,0.25); border-radius: 25px; pointer-events: none;
+    }
+
+    /* ZONA SUPERIOR: DADOS VISIBLES (drop zone) */
+    .visible-zone {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        min-height: 110px;
+        background: rgba(0,0,0,0.25);
+        border: 3px dashed rgba(255,255,255,0.4);
+        border-radius: 20px;
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        padding: 12px;
+        transition: all 0.2s;
+    }
+    .visible-zone.drag-over {
+        background: rgba(0, 255, 65, 0.2);
+        border-color: var(--neon-green);
+        box-shadow: 0 0 20px rgba(0, 255, 65, 0.4);
+    }
+    .zone-label-top {
+        position: absolute;
+        top: -12px;
+        background: var(--felt-dark);
+        padding: 2px 12px;
+        color: rgba(255,255,255,0.85);
+        font-size: 0.7rem;
+        font-weight: 900;
+        letter-spacing: 1.5px;
+        border-radius: 10px;
+        font-family: 'Arial Black', sans-serif;
+        z-index: 3;
+    }
+
+    .separator-line {
+        width: 85%;
+        border-top: 2px dashed rgba(255,255,255,0.3);
+        margin: 12px 0;
+    }
+
+    /* ZONA INFERIOR: CUBILETE */
+    .cup-zone {
+        flex: 1;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+    }
+    .cubilete-wrapper {
+        position: relative;
+        width: 200px;
+        height: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    /* Cubilete negro inclinado estilo 5.000 */
+    .cubilete {
+        width: 140px;
+        height: 175px;
+        background: linear-gradient(145deg, #2a2a2a 0%, #0a0a0a 50%, #1a1a1a 100%);
+        border-radius: 20px 20px 55px 55px;
+        border: 3px solid #111;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.8), inset 0 5px 20px rgba(255,255,255,0.05), inset 0 -10px 20px rgba(0,0,0,0.5);
+        position: relative;
+        transform: rotate(-12deg);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .cubilete::before {
+        content: ""; position: absolute; top: -10px; left: 8%; width: 84%; height: 18px;
+        background: linear-gradient(to bottom, #4a4a4a, #1a1a1a);
+        border-radius: 12px 12px 0 0;
+        border: 2px solid #111;
+        border-bottom: none;
+    }
+    .cubilete::after {
+        content: ""; position: absolute; top: 15px; left: 20%; width: 60%; height: 4px;
+        background: rgba(255,255,255,0.15);
+        border-radius: 2px;
+    }
+    .cubilete.shaking { animation: shakeCup 0.25s ease-in-out 5; }
+    .cubilete.drag-over {
+        box-shadow: 0 15px 35px rgba(0,0,0,0.8), 0 0 30px rgba(241, 196, 15, 0.6);
+        transform: rotate(-12deg) scale(1.05);
+    }
+    @keyframes shakeCup {
+        0%, 100% { transform: rotate(-12deg) translateX(0); }
+        25% { transform: rotate(-18deg) translateX(-8px); }
+        75% { transform: rotate(-6deg) translateX(8px); }
+    }
+
+    /* Dados dentro del cubilete (ocultos, apilados) */
+    .cubilete .hidden-stack {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+    .cubilete .hidden-stack.visible { opacity: 1; }
+    .cubilete .mini-die {
+        width: 30px;
+        height: 30px;
+        background: linear-gradient(145deg, #222, #000);
+        border: 1px solid #333;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        color: rgba(255,255,255,0.4);
+        box-shadow: inset 0 0 8px rgba(0,0,0,0.8);
+    }
+
+    /* DADOS DE PÓKER */
+    .die {
+        width: 75px;
+        height: 75px;
+        background: linear-gradient(145deg, #faf6e8 0%, var(--dice-cream) 40%, var(--dice-cream-shadow) 100%);
+        border-radius: 12px;
+        position: relative;
+        cursor: grab;
+        box-shadow: 2px 3px 8px rgba(0,0,0,0.5), inset 1px 1px 2px rgba(255,255,255,0.9), inset -1px -2px 3px rgba(0,0,0,0.15);
+        transition: transform 0.15s, box-shadow 0.15s;
+        border: 1px solid #d8d0b8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .die:active { cursor: grabbing; }
+    .die:hover { transform: translateY(-4px) scale(1.05); }
+    .die.dragging { opacity: 0.5; transform: scale(0.9); }
+
+    .die-face { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); width: 100%; height: 100%; padding: 10px; }
+    .pip {
+        width: 14px; height: 14px; border-radius: 50%; align-self: center; justify-self: center;
+        box-shadow: inset 0 2px 3px rgba(0,0,0,0.6), inset 0 -1px 1px rgba(255,255,255,0.2), 0 1px 0 rgba(255,255,255,0.3);
+    }
+    .pip.red { background: radial-gradient(circle at 35% 35%, #ff4444, #cc0000 70%); }
+    .pip.black { background: radial-gradient(circle at 35% 35%, #444, #111 70%); }
+    .pip.large { width: 20px; height: 20px; }
+    .pip.p1 { grid-area: 1 / 1; } .pip.p3 { grid-area: 1 / 3; } .pip.p4 { grid-area: 2 / 1; }
+    .pip.p5 { grid-area: 2 / 2; } .pip.p6 { grid-area: 2 / 3; } .pip.p7 { grid-area: 3 / 1; } .pip.p9 { grid-area: 3 / 3; }
+
+    .die-letter { font-size: 2.5rem; font-weight: 900; font-family: 'Georgia', 'Times New Roman', serif; text-shadow: 1px 1px 2px rgba(0,0,0,0.2), -1px -1px 0 rgba(255,255,255,0.4); }
+    .die-letter.red { color: #cc0000; }
+    .die-letter.black { color: #111; }
+
+    /* BOTONES */
+    .buttons-row { display: flex; gap: 12px; width: 100%; max-width: 600px; margin-top: 15px; justify-content: center; flex-wrap: wrap; }
+    .action-btn {
+        flex: 1; padding: 16px 18px; background: linear-gradient(to bottom, #555 0%, #333 100%);
+        border: none; border-radius: 50px; color: #fff; font-size: 1rem; font-weight: 900;
+        letter-spacing: 1px; cursor: pointer; box-shadow: 0 6px 0 #1a1a1a, 0 10px 20px rgba(0,0,0,0.5);
+        transition: all 0.1s; font-family: 'Arial Black', sans-serif; text-transform: uppercase; min-width: 140px;
+    }
+    .action-btn:hover { background: linear-gradient(to bottom, #666 0%, #444 100%); }
+    .action-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #1a1a1a; }
+    .action-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+    .btn-danger { background: linear-gradient(to bottom, #e74c3c 0%, #c0392b 100%); box-shadow: 0 6px 0 #7b241c; }
+    .btn-success { background: linear-gradient(to bottom, #2ecc71 0%, #27ae60 100%); box-shadow: 0 6px 0 #1a7a40; color: #000; }
+    .btn-gold { background: linear-gradient(to bottom, #f1c40f 0%, #d4a017 100%); box-shadow: 0 6px 0 #8b6914; color: #000; }
+
+    /* Controles de declaración */
+    .declare-controls {
+        background: rgba(0,0,0,0.9); border: 3px solid var(--gold); padding: 15px;
+        border-radius: 15px; width: 100%; max-width: 500px; display: none; flex-direction: column; gap: 10px; margin-top: 12px;
+    }
+    .declare-controls.active { display: flex; }
+    .declare-title { text-align: center; color: var(--gold); font-weight: 900; font-family: 'Arial Black'; font-size: 1.05rem; }
+    .select-group { display: flex; gap: 10px; }
+    select { flex: 1; padding: 11px; border-radius: 8px; border: 2px solid var(--gold); font-size: 0.95rem; background: #000; color: var(--gold); cursor: pointer; font-weight: bold; }
+
+    /* Modal */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 100; justify-content: center; align-items: center; padding: 20px; }
+    .modal.active { display: flex; }
+    .modal-content { background: #0d0d0d; padding: 25px; border-radius: 15px; max-width: 500px; width: 100%; max-height: 85vh; overflow-y: auto; border: 3px solid var(--gold); }
+    .modal-content h2 { color: var(--gold); margin-bottom: 15px; font-family: 'Arial Black', sans-serif; }
+    .modal-content ul { padding-left: 20px; margin: 15px 0; line-height: 1.7; color: #ddd; }
+    .modal-content li { margin-bottom: 10px; }
+    .modal-content b { color: var(--gold); }
+
+    @media (max-width: 500px) {
+        .player-card { min-width: 70px; padding: 8px 10px; }
+        .die { width: 62px; height: 62px; }
+        .die-letter { font-size: 2rem; }
+        .pip { width: 11px; height: 11px; }
+        .pip.large { width: 15px; height: 15px; }
+        .action-btn { font-size: 0.85rem; padding: 14px; min-width: 120px; }
+        .start-title { font-size: 2.4rem; }
+        .cubilete { width: 120px; height: 150px; }
+    }
+</style>
+</head>
+<body>
+
+<audio id="snd-cubilete" src="cubilete.ogg" preload="auto"></audio>
+
+<!-- PANTALLA INICIO -->
+<div id="start-screen" class="start-container active">
+    <div class="start-card">
+        <h1 class="start-title">MENTIROSO</h1>
+        <p class="start-subtitle">Selecciona jugadores</p>
+        <div class="player-buttons-row">
+            <button class="player-circle-btn" onclick="startGame(2)">2</button>
+            <button class="player-circle-btn" onclick="startGame(3)">3</button>
+            <button class="player-circle-btn" onclick="startGame(4)">4</button>
+            <button class="player-circle-btn" onclick="startGame(5)">5</button>
+            <button class="player-circle-btn" onclick="startGame(6)">6</button>
+        </div>
+        <button class="instructions-btn" onclick="toggleModal('instructions-modal', true)">📖 INSTRUCCIONES</button>
+    </div>
+</div>
+
+<!-- PANTALLA JUEGO -->
+<div id="game-screen" class="game-container">
+    <div class="scoreboard" id="scoreboard"></div>
+    <div class="turn-counter"><div class="counter-value" id="counter-value">0</div></div>
+    <div class="turn-message" id="turn-message">¡Buena suerte!</div>
+
+    <div class="felt-table">
+        <!-- ZONA SUPERIOR: DADOS VISIBLES -->
+        <div style="width:100%; position:relative; z-index:2;">
+            <div class="zone-label-top" style="position:relative; display:inline-block; margin-bottom:8px;">👁️ ZONA VISIBLE (arrastra aquí para mostrar)</div>
+            <div class="visible-zone" id="visible-zone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDropVisible(event)">
+                <span id="visible-placeholder" style="color:rgba(255,255,255,0.5); font-weight:900; font-size:0.9rem;">Los dados aparecerán aquí</span>
+            </div>
+        </div>
+
+        <div class="separator-line"></div>
+
+        <!-- ZONA CUBILETE -->
+        <div class="cup-zone">
+            <div class="cubilete-wrapper">
+                <div class="cubilete" id="cubilete" ondragover="handleDragOverCup(event)" ondragleave="handleDragLeave(event)" ondrop="handleDropCup(event)">
+                    <div class="hidden-stack" id="hidden-stack"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón TIRAR (único al inicio) -->
+    <div class="buttons-row" id="main-buttons">
+        <button class="action-btn btn-gold" id="btn-roll" onclick="rollDice()">🎲 ¡TIRAR!</button>
+    </div>
+
+    <!-- Controles de declaración -->
+    <div class="declare-controls" id="declare-controls">
+        <div class="declare-title">️ ELIGE Y CANTA TU JUGADA</div>
+        <div class="select-group">
+            <select id="hand-select">
+                <option value="par">Un Par</option>
+                <option value="doble_par">Doble Par</option>
+                <option value="trio">Trío</option>
+                <option value="escalera">Escalera</option>
+                <option value="full">Full House</option>
+                <option value="poker">Póker</option>
+                <option value="generala">Generala</option>
+            </select>
+            <select id="value-select">
+                <option value="A">de Ases (A)</option>
+                <option value="2">de Doses (2)</option>
+                <option value="3">de Treses (3)</option>
+                <option value="J">de Jotas (J)</option>
+                <option value="Q">de Queens (Q)</option>
+                <option value="K">de Reyes (K)</option>
+            </select>
+        </div>
+        <button class="action-btn btn-gold" onclick="declareHand()"> CANTAR</button>
+    </div>
+
+    <!-- Botones de desafío -->
+    <div class="buttons-row" id="challenge-buttons" style="display: none;">
+        <button class="action-btn btn-success" onclick="handleBelieve()">🤝 ME LO CREO</button>
+        <button class="action-btn btn-danger" onclick="handleLiar()">🚨 MENTIROSO</button>
+    </div>
+
+    <button class="action-btn" style="margin-top: 12px; max-width: 200px; font-size: 0.85rem;" onclick="resetGame()">🏠 MENÚ</button>
+</div>
+
+<!-- MODAL INSTRUCCIONES -->
+<div id="instructions-modal" class="modal">
+    <div class="modal-content">
+        <h2>📖 CÓMO JUGAR</h2>
+        <ul>
+            <li><b>🎯 Objetivo:</b> Ser el último jugador con vidas. Empiezas con 3 ❤️❤️❤️.</li>
+            <li><b>🎲 Dados de Póker:</b> A (rojo), 2 y 3 (puntos negros), J y Q (negras), K (roja).</li>
+            <li><b>La Tirada:</b> Al inicio, los dados están en el cubilete. Pulsa <b>TIRAR</b> y saldrán. <b>Arrastra</b> los que quieras ocultar de vuelta al cubilete. Los que dejes arriba los verá el rival.</li>
+            <li><b> Cantar Jugada:</b> Elige jugada y valor, pulsa <b>CANTAR</b>. Una voz lo anunciará.</li>
+            <li><b>🤝 El Desafío:</b> El siguiente jugador pulsa <b>ME LO CREO</b> o <b>MENTIROSO</b>. Una voz lo dirá.</li>
+            <li><b>⚖️ Resolución:</b> Se revelan los dados ocultos. La voz dirá <b>"Dije la verdad, pierdes una vida"</b> o <b>"Mentiroso, pierdes una vida"</b> según corresponda.</li>
+        </ul>
+        <button class="action-btn btn-success" onclick="toggleModal('instructions-modal', false)" style="width: 100%; margin-top: 15px;">✅ ENTENDIDO</button>
+    </div>
+</div>
+
+<script>
+const DICE_VALUES = ['A', '2', '3', 'J', 'Q', 'K'];
+
+let gameState = {
+    numPlayers: 2,
+    currentPlayer: 1,
+    lives: {},
+    dice: ['A', 'A', 'A', 'A', 'A'],
+    // visibleMask: true = dado está en zona visible (arriba), false = dado está en cubilete
+    visibleMask: [false, false, false, false, false], // Al inicio todos ocultos en cubilete
+    phase: 'roll', // 'roll', 'declare', 'challenge', 'resolve'
+    currentDeclaration: null,
+    diceRolled: false
+};
+
+const handNames = { 'par': 'Un Par', 'doble_par': 'Doble Par', 'trio': 'Un Trío', 'escalera': 'Escalera', 'full': 'Full House', 'poker': 'Póker', 'generala': 'Generala' };
+const valueNames = { 'A': 'Ases', '2': 'Doses', '3': 'Treses', 'J': 'Jotas', 'Q': 'Queens', 'K': 'Reyes' };
+const audioCubilete = document.getElementById('snd-cubilete');
+
+const pipLayouts = {
+    'A': [{pos: 'p5', color: 'red', large: true}],
+    '2': [{pos: 'p3', color: 'black'}, {pos: 'p7', color: 'black'}],
+    '3': [{pos: 'p3', color: 'black'}, {pos: 'p5', color: 'black'}, {pos: 'p7', color: 'black'}]
+};
+const letterColors = { 'J': 'black', 'Q': 'black', 'K': 'red' };
+
+/* ============ VOZ (SpeechSynthesis) ============ */
+function hablar(texto, callback) {
+    if (!('speechSynthesis' in window)) {
+        if (callback) callback();
+        return;
+    }
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(texto);
+    u.lang = 'es-ES';
+    u.rate = 1.05;
+    u.pitch = 1;
+    u.volume = 1;
+    // Intentar seleccionar voz española
+    const voices = speechSynthesis.getVoices();
+    const esVoice = voices.find(v => v.lang.startsWith('es'));
+    if (esVoice) u.voice = esVoice;
+    if (callback) u.onend = callback;
+    speechSynthesis.speak(u);
+}
+
+/* ============ CREAR DADO ============ */
+function createDieElement(value, index) {
+    const die = document.createElement('div');
+    die.className = 'die';
+    die.draggable = true;
+    die.dataset.index = index;
+    die.dataset.value = value;
+
+    if (['J','Q','K','A'].includes(value)) {
+        const letter = document.createElement('div');
+        letter.className = `die-letter ${letterColors[value] || 'black'}`;
+        letter.innerText = value;
+        die.appendChild(letter);
+    } else {
+        const face = document.createElement('div');
+        face.className = 'die-face';
+        pipLayouts[value].forEach(({pos, color, large}) => {
+            const pip = document.createElement('div');
+            pip.className = `pip ${color} ${pos}${large ? ' large' : ''}`;
+            face.appendChild(pip);
+        });
+        die.appendChild(face);
+    }
+
+    // Eventos drag
+    die.addEventListener('dragstart', (e) => {
+        e.dataTransfer.setData('text/plain', index.toString());
+        e.dataTransfer.effectAllowed = 'move';
+        setTimeout(() => die.classList.add('dragging'), 0);
+    });
+    die.addEventListener('dragend', () => {
+        die.classList.remove('dragging');
+        document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+    });
+
+    return die;
+}
+
+/* ============ DRAG & DROP ============ */
+function handleDragOver(e) { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; e.currentTarget.classList.add('drag-over'); }
+function handleDragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
+function handleDragOverCup(e) { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; document.getElementById('cubilete').classList.add('drag-over'); }
+
+function handleDropVisible(e) {
+    e.preventDefault();
+    e.currentTarget.classList.remove('drag-over');
+    const idx = parseInt(e.dataTransfer.getData('text/plain'));
+    if (isNaN(idx) || gameState.phase !== 'declare') return;
+    gameState.visibleMask[idx] = true;
+    renderBoard();
+    updateCounter();
+}
+
+function handleDropCup(e) {
+    e.preventDefault();
+    document.getElementById('cubilete').classList.remove('drag-over');
+    const idx = parseInt(e.dataTransfer.getData('text/plain'));
+    if (isNaN(idx) || gameState.phase !== 'declare') return;
+    gameState.visibleMask[idx] = false;
+    renderBoard();
+    updateCounter();
+}
+
+/* ============ RENDER ============ */
+function renderBoard() {
+    const visibleZone = document.getElementById('visible-zone');
+    const hiddenStack = document.getElementById('hidden-stack');
+    const placeholder = document.getElementById('visible-placeholder');
+
+    // Limpiar solo dados (mantener placeholder si existe)
+    [...visibleZone.querySelectorAll('.die')].forEach(d => d.remove());
+    hiddenStack.innerHTML = '';
+
+    let visibleCount = 0;
+    for (let i = 0; i < 5; i++) {
+        if (gameState.visibleMask[i]) {
+            const die = createDieElement(gameState.dice[i], i);
+            visibleZone.appendChild(die);
+            visibleCount++;
+        } else {
+            // Mini dado dentro del cubilete
+            const mini = document.createElement('div');
+            mini.className = 'mini-die';
+            mini.innerText = '?';
+            hiddenStack.appendChild(mini);
+        }
+    }
+
+    // Mostrar/ocultar placeholder
+    if (placeholder) placeholder.style.display = visibleCount === 0 ? 'inline' : 'none';
+
+    // Mostrar stack si hay dados ocultos
+    hiddenStack.classList.toggle('visible', (5 - visibleCount) > 0);
+}
+
+function updateCounter() {
+    const hiddenCount = gameState.visibleMask.filter(v => !v).length;
+    const visibleCount = 5 - hiddenCount;
+    document.getElementById('counter-value').innerText = hiddenCount;
+    
+    if (gameState.phase === 'declare') {
+        if (hiddenCount === 0) {
+            document.getElementById('turn-message').innerText = `J${gameState.currentPlayer}: todos visibles. ¡Canta tu jugada!`;
+        } else if (hiddenCount === 5) {
+            document.getElementById('turn-message').innerText = `J${gameState.currentPlayer}: arrastra los dados arriba para mostrarlos`;
+        } else {
+            document.getElementById('turn-message').innerText = `J${gameState.currentPlayer}: ${hiddenCount} oculto${hiddenCount>1?'s':''}, ${visibleCount} visible${visibleCount>1?'s':''}. Arrastra o canta.`;
+        }
+    }
+}
+
+/* ============ FLUJO DEL JUEGO ============ */
+function startGame(numPlayers) {
+    gameState.numPlayers = numPlayers;
+    gameState.lives = {};
+    for (let i = 1; i <= numPlayers; i++) gameState.lives[i] = 3;
+    gameState.currentPlayer = 1;
+    document.getElementById('start-screen').classList.remove('active');
+    document.getElementById('game-screen').classList.add('active');
+    // Cargar voces
+    if ('speechSynthesis' in window) speechSynthesis.getVoices();
+    renderScoreboard();
+    resetTurn();
+}
+
+function resetGame() {
+    document.getElementById('game-screen').classList.remove('active');
+    document.getElementById('start-screen').classList.add('active');
+    speechSynthesis.cancel();
+}
+
+function getNextAlivePlayer(startFrom) {
+    let next = startFrom, count = 0;
+    do { next = (next % gameState.numPlayers) + 1; count++; } while (gameState.lives[next] <= 0 && count < gameState.numPlayers);
+    return gameState.lives[next] > 0 ? next : null;
+}
+
+function resetTurn() {
+    const alivePlayers = Object.values(gameState.lives).filter(l => l > 0).length;
+    if (alivePlayers === 1) {
+        const winner = Object.keys(gameState.lives).find(key => gameState.lives[key] > 0);
+        setTimeout(() => {
+            hablar(`¡El jugador ${winner} gana la partida!`, () => {
+                alert(`🏆 ¡Jugador ${winner} gana!`);
+                resetGame();
+            });
+        }, 300);
+        return;
+    }
+
+    gameState.phase = 'roll';
+    gameState.currentDeclaration = null;
+    gameState.diceRolled = false;
+    // Todos los dados vuelven al cubilete
+    gameState.visibleMask = [false, false, false, false, false];
+
+    document.getElementById('counter-value').innerText = '0';
+    document.getElementById('turn-message').innerText = `Turno del Jugador ${gameState.currentPlayer}. ¡Tira los dados!`;
+    document.getElementById('btn-roll').style.display = 'inline-block';
+    document.getElementById('btn-roll').disabled = false;
+    document.getElementById('declare-controls').classList.remove('active');
+    document.getElementById('challenge-buttons').style.display = 'none';
+    document.getElementById('main-buttons').style.display = 'flex';
+
+    renderScoreboard();
+    renderBoard();
+}
+
+function rollDice() {
+    if (gameState.phase !== 'roll') return;
+    const btn = document.getElementById('btn-roll');
+    const cup = document.getElementById('cubilete');
+    btn.disabled = true;
+
+    // Agitar cubilete
+    cup.classList.add('shaking');
+    try { audioCubilete.currentTime = 0; audioCubilete.play().catch(()=>{}); } catch(e) {}
+
+    setTimeout(() => {
+        cup.classList.remove('shaking');
+
+        // Tirar los 5 dados
+        for (let i = 0; i < 5; i++) {
+            gameState.dice[i] = DICE_VALUES[Math.floor(Math.random() * DICE_VALUES.length)];
+        }
+
+        // LOS DADOS SALEN DEL CUBILETE: todos visibles al principio
+        gameState.visibleMask = [true, true, true, true, true];
+        gameState.diceRolled = true;
+        gameState.phase = 'declare';
+
+        document.getElementById('counter-value').innerText = '0';
+        document.getElementById('turn-message').innerText = `Jugador ${gameState.currentPlayer}: arrastra al cubilete los que quieras ocultar`;
+
+        // Hablar
+        hablar(`Jugador ${gameState.currentPlayer}, tira los dados. Arrastra al cubilete los que quieras ocultar.`);
+
+        document.getElementById('main-buttons').style.display = 'none';
+        document.getElementById('declare-controls').classList.add('active');
+
+        renderBoard();
+    }, 1300);
+}
+
+function declareHand() {
+    if (gameState.phase !== 'declare') return;
+    const hand = document.getElementById('hand-select').value;
+    const value = document.getElementById('value-select').value;
+    gameState.currentDeclaration = { hand, value };
+    gameState.phase = 'challenge';
+
+    const nextPlayer = getNextAlivePlayer(gameState.currentPlayer);
+    const textoVoz = `Jugador ${gameState.currentPlayer} canta ${handNames[hand]} de ${valueNames[value]}. Jugador ${nextPlayer}, ¿te lo crees o es mentiroso?`;
+    
+    document.getElementById('turn-message').innerHTML = `J${gameState.currentPlayer} canta: <b>${handNames[hand]} de ${valueNames[value]}</b><br>J${nextPlayer}, decide...`;
+    document.getElementById('counter-value').innerText = '🎯';
+
+    document.getElementById('declare-controls').classList.remove('active');
+    document.getElementById('main-buttons').style.display = 'none';
+    document.getElementById('challenge-buttons').style.display = 'flex';
+
+    hablar(textoVoz);
+}
+
+function handleBelieve() {
+    if (gameState.phase !== 'challenge') return;
+    document.getElementById('challenge-buttons').style.display = 'none';
+    const nextPlayer = getNextAlivePlayer(gameState.currentPlayer);
+    const textoVoz = `Jugador ${nextPlayer} dice: me lo creo. Cambio de turno.`;
+    document.getElementById('turn-message').innerText = `J${nextPlayer} se lo cree. Cambio de turno.`;
+    
+    hablar(textoVoz, () => {
+        gameState.currentPlayer = nextPlayer;
+        resetTurn();
+    });
+}
+
+function handleLiar() {
+    if (gameState.phase !== 'challenge') return;
+    document.getElementById('challenge-buttons').style.display = 'none';
+    resolveChallenge();
+}
+
+function resolveChallenge() {
+    gameState.phase = 'resolve';
+    // Revelar todos: mover todos a zona visible
+    gameState.visibleMask = [true, true, true, true, true];
+    renderBoard();
+
+    const decl = gameState.currentDeclaration;
+    const isValid = checkHandValidity(gameState.dice, decl.hand, decl.value);
+    const liar = gameState.currentPlayer;
+    const challenger = getNextAlivePlayer(gameState.currentPlayer);
+
+    let textoVoz = '';
+    if (isValid) {
+        gameState.lives[challenger]--;
+        textoVoz = `Dije la verdad. Tenía ${handNames[decl.hand]} de ${valueNames[decl.value]}. Jugador ${challenger}, pierdes una vida.`;
+        document.getElementById('turn-message').innerHTML = `✅ ¡Dije la verdad!<br>${handNames[decl.hand]} de ${valueNames[decl.value]}<br>J${challenger} pierde una vida.`;
+    } else {
+        gameState.lives[liar]--;
+        textoVoz = `Mentiroso. No tenía ${handNames[decl.hand]} de ${valueNames[decl.value]}. Jugador ${liar}, pierdes una vida.`;
+        document.getElementById('turn-message').innerHTML = ` ¡Mentiroso!<br>No tenía ${handNames[decl.hand]} de ${valueNames[decl.value]}<br>J${liar} pierde una vida.`;
+    }
+
+    document.getElementById('counter-value').innerText = isValid ? '✅' : '';
+    renderScoreboard();
+
+    hablar(textoVoz, () => {
+        setTimeout(() => {
+            gameState.currentPlayer = getNextAlivePlayer(challenger);
+            resetTurn();
+        }, 500);
+    });
+}
+
+function checkHandValidity(dice, hand, value) {
+    const counts = {};
+    dice.forEach(d => counts[d] = (counts[d] || 0) + 1);
+    const targetCount = counts[value] || 0;
+    const allCounts = Object.values(counts).sort((a, b) => b - a);
+
+    switch (hand) {
+        case 'par': return targetCount >= 2;
+        case 'doble_par': return allCounts[0] >= 2 && allCounts[1] >= 2;
+        case 'trio': return targetCount >= 3;
+        case 'full': return allCounts[0] >= 3 && allCounts[1] >= 2;
+        case 'poker': return targetCount >= 4;
+        case 'generala': return targetCount === 5;
+        case 'escalera':
+            const sorted = [...dice].sort();
+            const str = sorted.join('');
+            return str === '23AJQ' || str === '23JQK';
+        default: return false;
+    }
+}
+
+function renderScoreboard() {
+    const container = document.getElementById('scoreboard');
+    container.innerHTML = '';
+    for (let i = 1; i <= gameState.numPlayers; i++) {
+        const card = document.createElement('div');
+        const isEliminated = gameState.lives[i] <= 0;
+        const isActive = i === gameState.currentPlayer && !isEliminated;
+        card.className = `player-card ${isActive ? 'active' : ''} ${isEliminated ? 'eliminated' : ''}`;
+        card.innerHTML = `<div class="pname">JUGADOR ${i}</div><div class="plives">${isEliminated ? '' : '❤️'.repeat(gameState.lives[i])}</div>`;
+        container.appendChild(card);
+    }
+}
+
+function toggleModal(id, show) { document.getElementById(id).classList.toggle('active', show); }
+
+// Precargar voces
+if ('speechSynthesis' in window) {
+    speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
+    speechSynthesis.getVoices();
+}
+</script>
+</body>
+</html>
