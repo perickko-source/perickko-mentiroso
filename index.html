@@ -241,17 +241,17 @@
     }
     .cubilete-wrapper {
         position: relative;
-        width: 125px;
-        height: 145px;
+        width: 195px;
+        height: 226px;
         display: flex;
         justify-content: center;
         align-items: center;
     }
 
     .cubilete {
-        width: 100px;
-        height: 118px;
-        border-radius: 8px 8px 42px 42px;
+        width: 156px;
+        height: 185px;
+        border-radius: 12px 12px 65px 65px;
         border: 2px solid #111;
         position: relative;
         transform: rotate(-12deg);
@@ -271,10 +271,10 @@
     .cubilete::before {
         content: "";
         position: absolute;
-        top: 3px;
+        top: 5px;
         left: 8%;
         width: 84%;
-        height: 8px;
+        height: 12px;
         border-top: 2px dashed rgba(255,255,255,0.7);
         border-radius: 50%;
     }
@@ -282,10 +282,10 @@
     .cubilete::after {
         content: "";
         position: absolute;
-        bottom: 8px;
+        bottom: 12px;
         left: 8%;
         width: 84%;
-        height: 8px;
+        height: 12px;
         border-bottom: 2px dashed rgba(255,255,255,0.7);
         border-radius: 50%;
         background: radial-gradient(ellipse at center, #cc0000 0%, #8b0000 70%);
@@ -315,18 +315,18 @@
         transform: translate(-50%, -50%);
         display: flex;
         flex-direction: column;
-        gap: 2px;
+        gap: 3px;
         opacity: 0;
         transition: opacity 0.3s;
     }
     .cubilete .hidden-stack.visible { opacity: 1; }
     .cubilete .mini-die {
-        width: 22px; height: 22px;
+        width: 34px; height: 34px;
         background: linear-gradient(145deg, #222, #000);
         border: 1px solid #333;
-        border-radius: 3px;
+        border-radius: 4px;
         display: flex; align-items: center; justify-content: center;
-        font-size: 0.6rem;
+        font-size: 0.85rem;
         color: rgba(255,255,255,0.4);
         cursor: pointer;
     }
@@ -387,12 +387,13 @@
     }
     .action-btn {
         flex: 1;
-        padding: 15px 18px;
+        height: 80px;
+        padding: 0 18px;
         background: linear-gradient(to bottom, #555 0%, #333 100%);
         border: none;
         border-radius: 26px;
         color: #fff;
-        font-size: 0.95rem;
+        font-size: 1rem;
         font-weight: 900;
         letter-spacing: 0.5px;
         cursor: pointer;
@@ -400,6 +401,11 @@
         font-family: 'Arial Black', sans-serif;
         text-transform: uppercase;
         min-width: 135px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        line-height: 1.1;
     }
     .action-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #1a1a1a; }
     .btn-danger { background: linear-gradient(to bottom, #e74c3c 0%, #c0392b 100%); }
@@ -474,8 +480,8 @@
         .die-letter { font-size: 1.6rem; }
         .pip { width: 9px; height: 9px; }
         .pip.large { width: 14px; height: 14px; }
-        .cubilete { width: 110px; height: 130px; }
-        .action-btn { font-size: 1rem; padding: 16px 20px; min-width: 150px; }
+        .cubilete { width: 170px; height: 200px; }
+        .action-btn { font-size: 1.05rem; height: 85px; }
     }
 </style>
 </head>
