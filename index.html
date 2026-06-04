@@ -31,271 +31,104 @@
         padding: 5px;
     }
 
-    .start-container {
-        display: none;
-        width: 95%;
-        max-width: 340px;
-        padding: 8px;
-    }
+    .start-container { display: none; width: 95%; max-width: 340px; padding: 8px; }
     .start-container.active { display: flex; flex-direction: column; align-items: center; }
     
     .start-card {
-        background: #0d0d0d;
-        border: 3px solid var(--gold);
-        border-radius: 18px;
-        padding: 18px 12px;
-        width: 100%;
-        text-align: center;
+        background: #0d0d0d; border: 3px solid var(--gold); border-radius: 18px;
+        padding: 18px 12px; width: 100%; text-align: center;
         box-shadow: 0 0 20px rgba(241, 196, 15, 0.15);
     }
-    .start-title {
-        font-size: 1.8rem;
-        font-weight: 900;
-        color: var(--gold);
-        letter-spacing: 2px;
-        margin-bottom: 4px;
-        font-family: 'Arial Black', sans-serif;
-    }
-    .start-subtitle {
-        font-size: 0.85rem;
-        color: #fff;
-        font-weight: 600;
-        margin-bottom: 12px;
-    }
-    .player-buttons-row {
-        display: flex;
-        justify-content: center;
-        gap: 8px;
-        margin-bottom: 12px;
-        flex-wrap: wrap;
-    }
+    .start-title { font-size: 1.8rem; font-weight: 900; color: var(--gold); letter-spacing: 2px; margin-bottom: 4px; font-family: 'Arial Black', sans-serif; }
+    .start-subtitle { font-size: 0.85rem; color: #fff; font-weight: 600; margin-bottom: 12px; }
+    .player-buttons-row { display: flex; justify-content: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
     .player-circle-btn {
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        background: #000;
-        border: 2px solid var(--gold);
-        color: #fff;
-        font-size: 1.1rem;
-        font-weight: 900;
-        cursor: pointer;
-        transition: all 0.2s;
-        font-family: 'Arial Black', sans-serif;
+        width: 45px; height: 45px; border-radius: 50%; background: #000; border: 2px solid var(--gold);
+        color: #fff; font-size: 1.1rem; font-weight: 900; cursor: pointer; transition: all 0.2s; font-family: 'Arial Black', sans-serif;
     }
     .player-circle-btn:hover { background: var(--gold); color: #000; }
     .instructions-btn {
-        width: 100%;
-        padding: 9px 12px;
-        background: #000;
-        border: 2px solid var(--gold);
-        border-radius: 22px;
-        color: var(--gold);
-        font-size: 0.85rem;
-        font-weight: 900;
-        letter-spacing: 1px;
-        cursor: pointer;
-        transition: all 0.2s;
-        font-family: 'Arial Black', sans-serif;
+        width: 100%; padding: 9px 12px; background: #000; border: 2px solid var(--gold);
+        border-radius: 22px; color: var(--gold); font-size: 0.85rem; font-weight: 900; letter-spacing: 1px;
+        cursor: pointer; transition: all 0.2s; font-family: 'Arial Black', sans-serif;
     }
     .instructions-btn:hover { background: var(--gold); color: #000; }
 
     .game-container {
-        display: none;
-        width: 100%;
-        max-width: 380px;
-        height: 100vh;
-        height: 100dvh;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
-        padding: 5px;
-        overflow: hidden;
+        display: none; width: 100%; max-width: 380px; height: 100vh; height: 100dvh;
+        flex-direction: column; align-items: center; justify-content: space-between;
+        padding: 5px; overflow: hidden;
     }
     .game-container.active { display: flex; }
 
-    .scoreboard {
-        display: flex;
-        gap: 4px;
-        width: 100%;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
+    .scoreboard { display: flex; gap: 4px; width: 100%; justify-content: center; flex-wrap: wrap; }
     .player-card {
-        background: #0a0a0a;
-        border: 1.5px solid #333;
-        border-radius: 7px;
-        padding: 4px 8px;
-        min-width: 50px;
-        text-align: center;
-        transition: all 0.3s;
+        background: #0a0a0a; border: 1.5px solid #333; border-radius: 7px;
+        padding: 4px 8px; min-width: 50px; text-align: center; transition: all 0.3s;
     }
-    .player-card.active {
-        border-color: var(--neon-green);
-        box-shadow: 0 0 8px rgba(0, 255, 65, 0.4);
-    }
+    .player-card.active { border-color: var(--neon-green); box-shadow: 0 0 8px rgba(0, 255, 65, 0.4); }
     .player-card.eliminated { opacity: 0.4; text-decoration: line-through; }
-    .player-card .pname {
-        font-size: 0.5rem;
-        font-weight: 900;
-        letter-spacing: 0.5px;
-        color: var(--neon-green);
-        font-family: 'Arial Black', sans-serif;
-    }
-    .player-card .plives {
-        font-size: 0.85rem;
-        font-weight: 900;
-        color: var(--gold);
-        font-family: 'Arial Black', sans-serif;
-    }
+    .player-card .pname { font-size: 0.5rem; font-weight: 900; letter-spacing: 0.5px; color: var(--neon-green); font-family: 'Arial Black', sans-serif; }
+    .player-card .plives { font-size: 0.85rem; font-weight: 900; color: var(--gold); font-family: 'Arial Black', sans-serif; }
 
-    .turn-counter {
-        background: #000;
-        border: 2px solid var(--gold);
-        border-radius: 18px;
-        padding: 3px 15px;
-    }
-    .turn-counter .counter-value {
-        font-size: 1.2rem;
-        font-weight: 900;
-        color: var(--gold);
-        font-family: 'Arial Black', sans-serif;
-    }
+    .turn-counter { background: #000; border: 2px solid var(--gold); border-radius: 18px; padding: 3px 15px; }
+    .turn-counter .counter-value { font-size: 1.2rem; font-weight: 900; color: var(--gold); font-family: 'Arial Black', sans-serif; }
     .turn-message {
-        color: var(--gold);
-        font-weight: 900;
-        font-size: 0.7rem;
-        text-align: center;
-        font-family: 'Arial Black', sans-serif;
-        min-height: 16px;
-        letter-spacing: 0.3px;
-        padding: 0 4px;
+        color: var(--gold); font-weight: 900; font-size: 0.7rem; text-align: center;
+        font-family: 'Arial Black', sans-serif; min-height: 16px; letter-spacing: 0.3px; padding: 0 4px;
     }
 
     .felt-table {
         background: radial-gradient(ellipse at 50% 40%, var(--felt-light) 0%, #1a8c4a 30%, var(--felt-dark) 70%, #063d1a 100%);
-        border: 7px solid var(--wood);
-        border-radius: 16px;
-        padding: 7px 6px;
-        width: 100%;
-        flex: 1;
-        min-height: 0;
-        position: relative;
-        box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        border: 7px solid var(--wood); border-radius: 16px; padding: 7px 6px; width: 100%; flex: 1;
+        min-height: 0; position: relative; box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
+        display: flex; flex-direction: column; align-items: center;
     }
     .felt-table::before {
-        content: "";
-        position: absolute;
-        top: 3px; left: 3px; right: 3px; bottom: 3px;
-        border: 1.5px dashed rgba(255,255,255,0.25);
-        border-radius: 12px;
-        pointer-events: none;
+        content: ""; position: absolute; top: 3px; left: 3px; right: 3px; bottom: 3px;
+        border: 1.5px dashed rgba(255,255,255,0.25); border-radius: 12px; pointer-events: none;
     }
 
     .visible-zone {
-        position: relative;
-        z-index: 2;
-        width: 100%;
-        min-height: 52px;
-        background: rgba(0,0,0,0.25);
-        border: 2px dashed rgba(255,255,255,0.4);
-        border-radius: 10px;
-        display: flex;
-        gap: 5px;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
-        padding: 5px;
+        position: relative; z-index: 2; width: 100%; min-height: 52px;
+        background: rgba(0,0,0,0.25); border: 2px dashed rgba(255,255,255,0.4);
+        border-radius: 10px; display: flex; gap: 5px; justify-content: center;
+        align-items: center; flex-wrap: wrap; padding: 5px;
     }
     .zone-label-top {
-        position: absolute;
-        top: -8px;
-        background: var(--felt-dark);
-        padding: 1px 6px;
-        color: rgba(255,255,255,0.85);
-        font-size: 0.45rem;
-        font-weight: 900;
-        letter-spacing: 1px;
-        border-radius: 5px;
-        font-family: 'Arial Black', sans-serif;
-        z-index: 3;
+        position: absolute; top: -8px; background: var(--felt-dark);
+        padding: 1px 6px; color: rgba(255,255,255,0.85); font-size: 0.45rem;
+        font-weight: 900; letter-spacing: 1px; border-radius: 5px;
+        font-family: 'Arial Black', sans-serif; z-index: 3;
     }
 
-    .separator-line {
-        width: 80%;
-        border-top: 1.5px dashed rgba(255,255,255,0.3);
-        margin: 5px 0;
-    }
+    .separator-line { width: 80%; border-top: 1.5px dashed rgba(255,255,255,0.3); margin: 5px 0; }
 
-    .cup-zone {
-        flex: 1;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-        z-index: 2;
-        min-height: 0;
-    }
-    .cubilete-wrapper {
-        position: relative;
-        width: 195px;
-        height: 226px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+    .cup-zone { flex: 1; width: 100%; display: flex; justify-content: center; align-items: center; position: relative; z-index: 2; min-height: 0; }
+    .cubilete-wrapper { position: relative; width: 195px; height: 226px; display: flex; justify-content: center; align-items: center; }
 
     .cubilete {
-        width: 156px;
-        height: 185px;
-        border-radius: 12px 12px 65px 65px;
-        border: 2px solid #111;
-        position: relative;
-        transform: rotate(-12deg);
-        transition: transform 0.3s;
+        width: 156px; height: 185px; border-radius: 12px 12px 65px 65px; border: 2px solid #111;
+        position: relative; transform: rotate(-12deg); transition: transform 0.3s;
         background-image: 
             radial-gradient(circle at 20% 30%, rgba(255,255,255,0.03) 1px, transparent 1px),
             radial-gradient(circle at 60% 70%, rgba(255,255,255,0.02) 1px, transparent 1px),
             radial-gradient(circle at 80% 20%, rgba(255,255,255,0.02) 1px, transparent 1px),
             linear-gradient(145deg, #1a1a1a 0%, #0a0a0a 50%, #1a1a1a 100%);
         background-size: 8px 8px, 10px 10px, 12px 12px, 100% 100%;
-        box-shadow: 
-            inset 0 5px 15px rgba(0,0,0,0.8),
-            inset 0 -10px 20px rgba(0,0,0,0.6),
-            0 10px 25px rgba(0,0,0,0.8);
+        box-shadow: inset 0 5px 15px rgba(0,0,0,0.8), inset 0 -10px 20px rgba(0,0,0,0.6), 0 10px 25px rgba(0,0,0,0.8);
     }
-
     .cubilete::before {
-        content: "";
-        position: absolute;
-        top: 5px;
-        left: 8%;
-        width: 84%;
-        height: 12px;
-        border-top: 2px dashed rgba(255,255,255,0.7);
-        border-radius: 50%;
+        content: ""; position: absolute; top: 5px; left: 8%; width: 84%; height: 12px;
+        border-top: 2px dashed rgba(255,255,255,0.7); border-radius: 50%;
     }
-
     .cubilete::after {
-        content: "";
-        position: absolute;
-        bottom: 12px;
-        left: 8%;
-        width: 84%;
-        height: 12px;
-        border-bottom: 2px dashed rgba(255,255,255,0.7);
-        border-radius: 50%;
+        content: ""; position: absolute; bottom: 12px; left: 8%; width: 84%; height: 12px;
+        border-bottom: 2px dashed rgba(255,255,255,0.7); border-radius: 50%;
         background: radial-gradient(ellipse at center, #cc0000 0%, #8b0000 70%);
         box-shadow: inset 0 2px 8px rgba(0,0,0,0.8);
     }
-
-    .cubilete.shaking { 
-        animation: shakeCupVistoso 0.8s ease-in-out 2; 
-    }
-
+    .cubilete.shaking { animation: shakeCupVistoso 0.8s ease-in-out 2; }
     @keyframes shakeCupVistoso {
         0%, 100% { transform: rotate(-12deg) translateY(0) translateX(0); }
         10% { transform: rotate(-15deg) translateY(-8px) translateX(-5px); }
@@ -308,104 +141,47 @@
         80% { transform: rotate(-10deg) translateY(-4px) translateX(4px); }
         90% { transform: rotate(-12deg) translateY(-2px) translateX(-2px); }
     }
-
     .cubilete .hidden-stack {
-        position: absolute;
-        top: 50%; left: 50%;
-        transform: translate(-50%, -50%);
-        display: flex;
-        flex-direction: column;
-        gap: 3px;
-        opacity: 0;
-        transition: opacity 0.3s;
+        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        display: flex; flex-direction: column; gap: 3px; opacity: 0; transition: opacity 0.3s;
     }
     .cubilete .hidden-stack.visible { opacity: 1; }
     .cubilete .mini-die {
-        width: 34px; height: 34px;
-        background: linear-gradient(145deg, #222, #000);
-        border: 1px solid #333;
-        border-radius: 4px;
-        display: flex; align-items: center; justify-content: center;
-        font-size: 0.85rem;
-        color: rgba(255,255,255,0.4);
-        cursor: pointer;
+        width: 34px; height: 34px; background: linear-gradient(145deg, #222, #000);
+        border: 1px solid #333; border-radius: 4px; display: flex; align-items: center; justify-content: center;
+        font-size: 0.85rem; color: rgba(255,255,255,0.4); cursor: pointer;
     }
 
     .die {
         width: 42px; height: 42px;
         background: linear-gradient(145deg, #faf6e8 0%, var(--dice-cream) 40%, var(--dice-cream-shadow) 100%);
-        border-radius: 7px;
-        position: relative;
-        cursor: pointer;
-        box-shadow: 1px 2px 4px rgba(0,0,0,0.5);
-        border: 1px solid #d8d0b8;
-        display: flex; align-items: center; justify-content: center;
-        transition: transform 0.15s;
+        border-radius: 7px; position: relative; cursor: pointer;
+        box-shadow: 1px 2px 4px rgba(0,0,0,0.5); border: 1px solid #d8d0b8;
+        display: flex; align-items: center; justify-content: center; transition: transform 0.15s;
     }
     .die:active { transform: scale(0.95); }
     .die.clickable { border: 1.5px solid var(--gold); }
     .die.clickable:active { border-color: var(--neon-green); }
 
-    .die-face { 
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%; height: 100%;
-        padding: 5px 3px;
-    }
-    .pip-row {
-        display: flex;
-        justify-content: center;
-        gap: 2px;
-        width: 100%;
-    }
-    .pip {
-        width: 8px; height: 8px;
-        border-radius: 50%;
-        box-shadow: inset 0 1px 2px rgba(0,0,0,0.6);
-        flex-shrink: 0;
-    }
+    .die-face { display: flex; flex-direction: column; justify-content: space-between; align-items: center; width: 100%; height: 100%; padding: 5px 3px; }
+    .pip-row { display: flex; justify-content: center; gap: 2px; width: 100%; }
+    .pip { width: 8px; height: 8px; border-radius: 50%; box-shadow: inset 0 1px 2px rgba(0,0,0,0.6); flex-shrink: 0; }
     .pip.red { background: radial-gradient(circle at 35% 35%, #ff4444, #cc0000 70%); }
     .pip.black { background: radial-gradient(circle at 35% 35%, #444, #111 70%); }
     .pip.large { width: 12px; height: 12px; }
 
-    .die-letter {
-        font-size: 1.4rem;
-        font-weight: 900;
-        font-family: 'Georgia', serif;
-    }
+    .die-letter { font-size: 1.4rem; font-weight: 900; font-family: 'Georgia', serif; }
     .die-letter.red { color: #cc0000; }
     .die-letter.black { color: #111; }
 
-    .buttons-row {
-        display: flex;
-        gap: 8px;
-        width: 100%;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
+    .buttons-row { display: flex; gap: 8px; width: 100%; justify-content: center; flex-wrap: wrap; }
     .action-btn {
-        flex: 1;
-        height: 80px;
-        padding: 0 18px;
-        background: linear-gradient(to bottom, #555 0%, #333 100%);
-        border: none;
-        border-radius: 26px;
-        color: #fff;
-        font-size: 1rem;
-        font-weight: 900;
-        letter-spacing: 0.5px;
-        cursor: pointer;
-        box-shadow: 0 4px 0 #1a1a1a;
-        font-family: 'Arial Black', sans-serif;
-        text-transform: uppercase;
-        min-width: 135px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        line-height: 1.1;
+        flex: 1; height: 80px; padding: 0 18px;
+        background: linear-gradient(to bottom, #555 0%, #333 100%); border: none; border-radius: 26px;
+        color: #fff; font-size: 1rem; font-weight: 900; letter-spacing: 0.5px; cursor: pointer;
+        box-shadow: 0 4px 0 #1a1a1a; font-family: 'Arial Black', sans-serif;
+        text-transform: uppercase; min-width: 135px;
+        display: flex; align-items: center; justify-content: center; text-align: center; line-height: 1.1;
     }
     .action-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #1a1a1a; }
     .btn-danger { background: linear-gradient(to bottom, #e74c3c 0%, #c0392b 100%); }
@@ -413,64 +189,33 @@
     .btn-gold { background: linear-gradient(to bottom, #f1c40f 0%, #d4a017 100%); color: #000; }
 
     .declare-controls {
-        background: rgba(0,0,0,0.9);
-        border: 2px solid var(--gold);
-        padding: 8px;
-        border-radius: 10px;
-        width: 100%;
-        display: none;
-        flex-direction: column;
-        gap: 6px;
+        background: rgba(0,0,0,0.9); border: 2px solid var(--gold); padding: 8px;
+        border-radius: 10px; width: 100%; display: none; flex-direction: column; gap: 6px;
     }
     .declare-controls.active { display: flex; }
-    .declare-title {
-        text-align: center;
-        color: var(--gold);
-        font-weight: 900;
-        font-family: 'Arial Black';
-        font-size: 0.75rem;
-    }
+    .declare-title { text-align: center; color: var(--gold); font-weight: 900; font-family: 'Arial Black'; font-size: 0.75rem; }
     .select-group { display: flex; gap: 6px; }
     select {
-        flex: 1;
-        padding: 6px;
-        border-radius: 5px;
-        border: 1.5px solid var(--gold);
-        font-size: 0.7rem;
-        background: #000;
-        color: var(--gold);
-        cursor: pointer;
-        font-weight: bold;
+        flex: 1; padding: 6px; border-radius: 5px; border: 1.5px solid var(--gold);
+        font-size: 0.7rem; background: #000; color: var(--gold); cursor: pointer; font-weight: bold;
+    }
+    
+    /* ✅ Ajuste específico para el botón CANTAR dentro de los controles */
+    .declare-controls .action-btn {
+        flex: none;
+        width: 100%;
     }
 
     .modal {
-        display: none;
-        position: fixed;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background: rgba(0,0,0,0.95);
-        z-index: 100;
-        justify-content: center;
-        align-items: center;
-        padding: 12px;
+        display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.95); z-index: 100; justify-content: center; align-items: center; padding: 12px;
     }
     .modal.active { display: flex; }
     .modal-content {
-        background: #0d0d0d;
-        padding: 12px;
-        border-radius: 10px;
-        max-width: 300px;
-        width: 100%;
-        border: 2px solid var(--gold);
-        max-height: 75vh;
-        overflow-y: auto;
+        background: #0d0d0d; padding: 12px; border-radius: 10px; max-width: 300px; width: 100%;
+        border: 2px solid var(--gold); max-height: 75vh; overflow-y: auto;
     }
-    .modal-content h2 {
-        color: var(--gold);
-        font-size: 0.95rem;
-        margin-bottom: 8px;
-        font-family: 'Arial Black', sans-serif;
-    }
+    .modal-content h2 { color: var(--gold); font-size: 0.95rem; margin-bottom: 8px; font-family: 'Arial Black', sans-serif; }
     .modal-content ul { padding-left: 13px; margin: 8px 0; line-height: 1.4; color: #ddd; font-size: 0.7rem; }
     .modal-content li { margin-bottom: 5px; }
     .modal-content b { color: var(--gold); }
@@ -570,9 +315,9 @@
             <li><b>🎲 Dados:</b> <b>1 Negros</b> (7 pts), <b>2 Rojos</b> (8 pts), <b>J</b>, <b>Q</b>, <b>K</b>, <b>A</b> (1 pt rojo).</li>
             <li><b>🎯 Jugadas:</b> Pareja, Doble pareja, Trío, Escalera, Full, Poker, Repoker.</li>
             <li><b>🎲 Tirada:</b> Pulsa <b>TIRAR</b>. Pulsa los dados para ocultarlos/mostrarlos.</li>
-            <li><b>️ Cantar:</b> Elige jugada y valor, pulsa <b>CANTAR</b>.</li>
+            <li><b>🗣️ Cantar:</b> Elige jugada y valor, pulsa <b>CANTAR</b>.</li>
             <li><b>🤝 Desafío:</b> El siguiente pulsa <b>ME LO CREO</b> o <b>MENTIROSO</b>.</li>
-            <li><b>⚖️ Resolución:</b> La voz dirá si era verdad o mentira.</li>
+            <li><b>️ Resolución:</b> La voz dirá si era verdad o mentira.</li>
         </ul>
         <button class="action-btn btn-success" onclick="toggleModal('instructions-modal', false)" style="width: 100%; margin-top: 8px;">✅ ENTENDIDO</button>
     </div>
@@ -582,25 +327,12 @@
 const DICE_VALUES = ['1', '2', 'J', 'Q', 'K', 'A'];
 
 let gameState = {
-    numPlayers: 2,
-    currentPlayer: 1,
-    lives: {},
-    dice: ['1', '1', '1', '1', '1'],
-    visibleMask: [false, false, false, false, false],
-    phase: 'roll',
-    currentDeclaration: null
+    numPlayers: 2, currentPlayer: 1, lives: {},
+    dice: ['1', '1', '1', '1', '1'], visibleMask: [false, false, false, false, false],
+    phase: 'roll', currentDeclaration: null
 };
 
-const handNames = {
-    'pareja': 'Pareja',
-    'doble_pareja': 'Doble pareja',
-    'trio': 'Trío',
-    'escalera': 'Escalera',
-    'full': 'Full',
-    'poker': 'Poker',
-    'repoker': 'Repoker'
-};
-
+const handNames = { 'pareja': 'Pareja', 'doble_pareja': 'Doble pareja', 'trio': 'Trío', 'escalera': 'Escalera', 'full': 'Full', 'poker': 'Poker', 'repoker': 'Repoker' };
 const valueNames = { '1': 'Negros', '2': 'Rojos', 'J': 'Jotas', 'Q': 'Damas', 'K': 'Reyes', 'A': 'Ases' };
 const audioCubilete = document.getElementById('snd-cubilete');
 
@@ -609,15 +341,13 @@ const faceLayouts = {
     '2': { rows: [[{color:'red'},{color:'red'},{color:'red'}],[{color:'red'},{color:'red'}],[{color:'red'},{color:'red'},{color:'red'}]] },
     'A': { rows: [[{color:'red', large:true}]], centerOnly: true }
 };
-
 const letterColors = { 'J': 'black', 'Q': 'black', 'K': 'red' };
 
 function hablar(texto, callback) {
     if (!('speechSynthesis' in window)) { if (callback) callback(); return; }
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(texto);
-    u.lang = 'es-ES';
-    u.rate = 1.05;
+    u.lang = 'es-ES'; u.rate = 1.05;
     const voices = speechSynthesis.getVoices();
     const esVoice = voices.find(v => v.lang.startsWith('es'));
     if (esVoice) u.voice = esVoice;
@@ -644,8 +374,7 @@ function createDieElement(value, index) {
         if (layout.centerOnly) {
             const row = document.createElement('div');
             row.className = 'pip-row';
-            row.style.flex = '1';
-            row.style.alignItems = 'center';
+            row.style.flex = '1'; row.style.alignItems = 'center';
             const pip = document.createElement('div');
             pip.className = `pip ${layout.rows[0][0].color} large`;
             row.appendChild(pip);
@@ -654,8 +383,7 @@ function createDieElement(value, index) {
             layout.rows.forEach(rowPips => {
                 const row = document.createElement('div');
                 row.className = 'pip-row';
-                row.style.flex = '1';
-                row.style.alignItems = 'center';
+                row.style.flex = '1'; row.style.alignItems = 'center';
                 rowPips.forEach(pipInfo => {
                     const pip = document.createElement('div');
                     pip.className = `pip ${pipInfo.color}${pipInfo.large ? ' large' : ''}`;
@@ -666,7 +394,6 @@ function createDieElement(value, index) {
         }
         die.appendChild(face);
     }
-
     if (isClickable) die.addEventListener('click', () => toggleDie(index));
     return die;
 }
@@ -674,8 +401,7 @@ function createDieElement(value, index) {
 function toggleDie(index) {
     if (gameState.phase !== 'declare') return;
     gameState.visibleMask[index] = !gameState.visibleMask[index];
-    renderBoard();
-    updateCounter();
+    renderBoard(); updateCounter();
 }
 
 function renderBoard() {
@@ -684,7 +410,6 @@ function renderBoard() {
     const placeholder = document.getElementById('visible-placeholder');
     [...visibleZone.querySelectorAll('.die')].forEach(d => d.remove());
     hiddenStack.innerHTML = '';
-
     let visibleCount = 0;
     for (let i = 0; i < 5; i++) {
         if (gameState.visibleMask[i]) {
@@ -692,20 +417,17 @@ function renderBoard() {
             visibleCount++;
         } else {
             const mini = document.createElement('div');
-            mini.className = 'mini-die';
-            mini.innerText = '?';
+            mini.className = 'mini-die'; mini.innerText = '?';
             mini.addEventListener('click', () => toggleDie(i));
             hiddenStack.appendChild(mini);
         }
     }
-
     if (placeholder) placeholder.style.display = visibleCount === 0 ? 'inline' : 'none';
     hiddenStack.classList.toggle('visible', (5 - visibleCount) > 0);
 }
 
 function updateCounter() {
     const hiddenCount = gameState.visibleMask.filter(v => !v).length;
-    const visibleCount = 5 - hiddenCount;
     document.getElementById('counter-value').innerText = hiddenCount;
     if (gameState.phase === 'declare') {
         if (hiddenCount === 0) document.getElementById('turn-message').innerText = `J${gameState.currentPlayer}: ¡Canta!`;
@@ -715,15 +437,13 @@ function updateCounter() {
 }
 
 function startGame(numPlayers) {
-    gameState.numPlayers = numPlayers;
-    gameState.lives = {};
+    gameState.numPlayers = numPlayers; gameState.lives = {};
     for (let i = 1; i <= numPlayers; i++) gameState.lives[i] = 3;
     gameState.currentPlayer = 1;
     document.getElementById('start-screen').classList.remove('active');
     document.getElementById('game-screen').classList.add('active');
     if ('speechSynthesis' in window) speechSynthesis.getVoices();
-    renderScoreboard();
-    resetTurn();
+    renderScoreboard(); resetTurn();
 }
 
 function resetGame() {
@@ -742,13 +462,10 @@ function resetTurn() {
     const alivePlayers = Object.values(gameState.lives).filter(l => l > 0).length;
     if (alivePlayers === 1) {
         const winner = Object.keys(gameState.lives).find(key => gameState.lives[key] > 0);
-        setTimeout(() => {
-            hablar(`¡Jugador ${winner} gana!`, () => { alert(`🏆 J${winner} gana`); resetGame(); });
-        }, 300);
+        setTimeout(() => { hablar(`¡Jugador ${winner} gana!`, () => { alert(`🏆 J${winner} gana`); resetGame(); }); }, 300);
         return;
     }
-    gameState.phase = 'roll';
-    gameState.currentDeclaration = null;
+    gameState.phase = 'roll'; gameState.currentDeclaration = null;
     gameState.visibleMask = [false, false, false, false, false];
     document.getElementById('counter-value').innerText = '0';
     document.getElementById('turn-message').innerText = `J${gameState.currentPlayer}: ¡Tira!`;
@@ -757,16 +474,14 @@ function resetTurn() {
     document.getElementById('declare-controls').classList.remove('active');
     document.getElementById('challenge-buttons').style.display = 'none';
     document.getElementById('main-buttons').style.display = 'flex';
-    renderScoreboard();
-    renderBoard();
+    renderScoreboard(); renderBoard();
 }
 
 function rollDice() {
     if (gameState.phase !== 'roll') return;
     const btn = document.getElementById('btn-roll');
     const cup = document.getElementById('cubilete');
-    btn.disabled = true;
-    cup.classList.add('shaking');
+    btn.disabled = true; cup.classList.add('shaking');
     try { audioCubilete.currentTime = 0; audioCubilete.play().catch(()=>{}); } catch(e) {}
     setTimeout(() => {
         cup.classList.remove('shaking');
