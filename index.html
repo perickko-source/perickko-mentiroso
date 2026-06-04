@@ -198,7 +198,7 @@
         position: relative;
         z-index: 2;
         width: 100%;
-        min-height: 55px;
+        min-height: 52px;
         background: rgba(0,0,0,0.25);
         border: 2px dashed rgba(255,255,255,0.4);
         border-radius: 10px;
@@ -241,17 +241,17 @@
     }
     .cubilete-wrapper {
         position: relative;
-        width: 100px;
-        height: 120px;
+        width: 125px;
+        height: 145px;
         display: flex;
         justify-content: center;
         align-items: center;
     }
 
     .cubilete {
-        width: 85px;
-        height: 100px;
-        border-radius: 7px 7px 38px 38px;
+        width: 100px;
+        height: 118px;
+        border-radius: 8px 8px 42px 42px;
         border: 2px solid #111;
         position: relative;
         transform: rotate(-12deg);
@@ -274,7 +274,7 @@
         top: 3px;
         left: 8%;
         width: 84%;
-        height: 7px;
+        height: 8px;
         border-top: 2px dashed rgba(255,255,255,0.7);
         border-radius: 50%;
     }
@@ -282,10 +282,10 @@
     .cubilete::after {
         content: "";
         position: absolute;
-        bottom: 7px;
+        bottom: 8px;
         left: 8%;
         width: 84%;
-        height: 7px;
+        height: 8px;
         border-bottom: 2px dashed rgba(255,255,255,0.7);
         border-radius: 50%;
         background: radial-gradient(ellipse at center, #cc0000 0%, #8b0000 70%);
@@ -321,12 +321,12 @@
     }
     .cubilete .hidden-stack.visible { opacity: 1; }
     .cubilete .mini-die {
-        width: 20px; height: 20px;
+        width: 22px; height: 22px;
         background: linear-gradient(145deg, #222, #000);
         border: 1px solid #333;
         border-radius: 3px;
         display: flex; align-items: center; justify-content: center;
-        font-size: 0.55rem;
+        font-size: 0.6rem;
         color: rgba(255,255,255,0.4);
         cursor: pointer;
     }
@@ -387,21 +387,21 @@
     }
     .action-btn {
         flex: 1;
-        padding: 12px 15px;
+        padding: 15px 18px;
         background: linear-gradient(to bottom, #555 0%, #333 100%);
         border: none;
-        border-radius: 22px;
+        border-radius: 26px;
         color: #fff;
-        font-size: 0.85rem;
+        font-size: 0.95rem;
         font-weight: 900;
         letter-spacing: 0.5px;
         cursor: pointer;
-        box-shadow: 0 3px 0 #1a1a1a;
+        box-shadow: 0 4px 0 #1a1a1a;
         font-family: 'Arial Black', sans-serif;
         text-transform: uppercase;
-        min-width: 110px;
+        min-width: 135px;
     }
-    .action-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #1a1a1a; }
+    .action-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #1a1a1a; }
     .btn-danger { background: linear-gradient(to bottom, #e74c3c 0%, #c0392b 100%); }
     .btn-success { background: linear-gradient(to bottom, #2ecc71 0%, #27ae60 100%); color: #000; }
     .btn-gold { background: linear-gradient(to bottom, #f1c40f 0%, #d4a017 100%); color: #000; }
@@ -474,8 +474,8 @@
         .die-letter { font-size: 1.6rem; }
         .pip { width: 9px; height: 9px; }
         .pip.large { width: 14px; height: 14px; }
-        .cubilete { width: 95px; height: 115px; }
-        .action-btn { font-size: 0.9rem; padding: 13px 16px; }
+        .cubilete { width: 110px; height: 130px; }
+        .action-btn { font-size: 1rem; padding: 16px 20px; min-width: 150px; }
     }
 </style>
 </head>
@@ -564,7 +564,7 @@
             <li><b>🎲 Dados:</b> <b>1 Negros</b> (7 pts), <b>2 Rojos</b> (8 pts), <b>J</b>, <b>Q</b>, <b>K</b>, <b>A</b> (1 pt rojo).</li>
             <li><b>🎯 Jugadas:</b> Pareja, Doble pareja, Trío, Escalera, Full, Poker, Repoker.</li>
             <li><b>🎲 Tirada:</b> Pulsa <b>TIRAR</b>. Pulsa los dados para ocultarlos/mostrarlos.</li>
-            <li><b>🗣️ Cantar:</b> Elige jugada y valor, pulsa <b>CANTAR</b>.</li>
+            <li><b>️ Cantar:</b> Elige jugada y valor, pulsa <b>CANTAR</b>.</li>
             <li><b>🤝 Desafío:</b> El siguiente pulsa <b>ME LO CREO</b> o <b>MENTIROSO</b>.</li>
             <li><b>⚖️ Resolución:</b> La voz dirá si era verdad o mentira.</li>
         </ul>
